@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"badinho.com/baas-connector/connection"
+	"badinho.com/dbc-example/connection"
 	"github.com/google/uuid"
 )
 

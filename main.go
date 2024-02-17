@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 
-	"badinho.com/baas-connector/book"
-	"badinho.com/baas-connector/connection"
+	"badinho.com/dbc-example/book"
+	"badinho.com/dbc-example/connection"
 	"google.golang.org/grpc"
 )
 

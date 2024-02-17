@@ -1,4 +1,4 @@
-module badinho.com/baas-connector
+module badinho.com/dbc-example
 
 go 1.22.0
 
