@@ -26,7 +26,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	book.RegisterBookServiceServer(grpcServer, &book.Server{})
+	book.RegisterGBookServiceServer(grpcServer, &book.Server{})
 
 	log.Printf("server listening at %v", lis.Addr())
 
@@ -68,3 +68,7 @@ func main() {
 // 	log.Fatal(err)
 // }
 // fmt.Printf("Book added: %v\n", r)
+
+// protoc --go_out=. --go_opt=paths=source_relative \                                                                                     ⬡ none [±master ✓]
+//     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+//     book/book.proto

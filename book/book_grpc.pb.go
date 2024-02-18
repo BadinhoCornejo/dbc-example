@@ -18,86 +18,230 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// BookServiceClient is the client API for BookService service.
+// GBookServiceClient is the client API for GBookService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type BookServiceClient interface {
-	GetBooks(ctx context.Context, in *BooksRequest, opts ...grpc.CallOption) (*BooksResponse, error)
+type GBookServiceClient interface {
+	GetBooks(ctx context.Context, in *GBooksRequest, opts ...grpc.CallOption) (*GBooksResponse, error)
+	GetBookByUid(ctx context.Context, in *GBookByUidRequest, opts ...grpc.CallOption) (*GBookResponse, error)
+	DeleteBook(ctx context.Context, in *GBookByIdRequest, opts ...grpc.CallOption) (*GDeleteResponse, error)
+	CreateBook(ctx context.Context, in *GCreateBookRequest, opts ...grpc.CallOption) (*GBookResponse, error)
+	UpdateBook(ctx context.Context, in *GUpdateBookRequest, opts ...grpc.CallOption) (*GBookResponse, error)
 }
 
-type bookServiceClient struct {
+type gBookServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewBookServiceClient(cc grpc.ClientConnInterface) BookServiceClient {
-	return &bookServiceClient{cc}
+func NewGBookServiceClient(cc grpc.ClientConnInterface) GBookServiceClient {
+	return &gBookServiceClient{cc}
 }
 
-func (c *bookServiceClient) GetBooks(ctx context.Context, in *BooksRequest, opts ...grpc.CallOption) (*BooksResponse, error) {
-	out := new(BooksResponse)
-	err := c.cc.Invoke(ctx, "/book.BookService/GetBooks", in, out, opts...)
+func (c *gBookServiceClient) GetBooks(ctx context.Context, in *GBooksRequest, opts ...grpc.CallOption) (*GBooksResponse, error) {
+	out := new(GBooksResponse)
+	err := c.cc.Invoke(ctx, "/book.GBookService/GetBooks", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// BookServiceServer is the server API for BookService service.
-// All implementations must embed UnimplementedBookServiceServer
+func (c *gBookServiceClient) GetBookByUid(ctx context.Context, in *GBookByUidRequest, opts ...grpc.CallOption) (*GBookResponse, error) {
+	out := new(GBookResponse)
+	err := c.cc.Invoke(ctx, "/book.GBookService/GetBookByUid", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gBookServiceClient) DeleteBook(ctx context.Context, in *GBookByIdRequest, opts ...grpc.CallOption) (*GDeleteResponse, error) {
+	out := new(GDeleteResponse)
+	err := c.cc.Invoke(ctx, "/book.GBookService/DeleteBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gBookServiceClient) CreateBook(ctx context.Context, in *GCreateBookRequest, opts ...grpc.CallOption) (*GBookResponse, error) {
+	out := new(GBookResponse)
+	err := c.cc.Invoke(ctx, "/book.GBookService/CreateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gBookServiceClient) UpdateBook(ctx context.Context, in *GUpdateBookRequest, opts ...grpc.CallOption) (*GBookResponse, error) {
+	out := new(GBookResponse)
+	err := c.cc.Invoke(ctx, "/book.GBookService/UpdateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GBookServiceServer is the server API for GBookService service.
+// All implementations must embed UnimplementedGBookServiceServer
 // for forward compatibility
-type BookServiceServer interface {
-	GetBooks(context.Context, *BooksRequest) (*BooksResponse, error)
-	mustEmbedUnimplementedBookServiceServer()
+type GBookServiceServer interface {
+	GetBooks(context.Context, *GBooksRequest) (*GBooksResponse, error)
+	GetBookByUid(context.Context, *GBookByUidRequest) (*GBookResponse, error)
+	DeleteBook(context.Context, *GBookByIdRequest) (*GDeleteResponse, error)
+	CreateBook(context.Context, *GCreateBookRequest) (*GBookResponse, error)
+	UpdateBook(context.Context, *GUpdateBookRequest) (*GBookResponse, error)
+	mustEmbedUnimplementedGBookServiceServer()
 }
 
-// UnimplementedBookServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedBookServiceServer struct {
+// UnimplementedGBookServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedGBookServiceServer struct {
 }
 
-func (UnimplementedBookServiceServer) GetBooks(context.Context, *BooksRequest) (*BooksResponse, error) {
+func (UnimplementedGBookServiceServer) GetBooks(context.Context, *GBooksRequest) (*GBooksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBooks not implemented")
 }
-func (UnimplementedBookServiceServer) mustEmbedUnimplementedBookServiceServer() {}
+func (UnimplementedGBookServiceServer) GetBookByUid(context.Context, *GBookByUidRequest) (*GBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookByUid not implemented")
+}
+func (UnimplementedGBookServiceServer) DeleteBook(context.Context, *GBookByIdRequest) (*GDeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBook not implemented")
+}
+func (UnimplementedGBookServiceServer) CreateBook(context.Context, *GCreateBookRequest) (*GBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBook not implemented")
+}
+func (UnimplementedGBookServiceServer) UpdateBook(context.Context, *GUpdateBookRequest) (*GBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBook not implemented")
+}
+func (UnimplementedGBookServiceServer) mustEmbedUnimplementedGBookServiceServer() {}
 
-// UnsafeBookServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to BookServiceServer will
+// UnsafeGBookServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GBookServiceServer will
 // result in compilation errors.
-type UnsafeBookServiceServer interface {
-	mustEmbedUnimplementedBookServiceServer()
+type UnsafeGBookServiceServer interface {
+	mustEmbedUnimplementedGBookServiceServer()
 }
 
-func RegisterBookServiceServer(s grpc.ServiceRegistrar, srv BookServiceServer) {
-	s.RegisterService(&BookService_ServiceDesc, srv)
+func RegisterGBookServiceServer(s grpc.ServiceRegistrar, srv GBookServiceServer) {
+	s.RegisterService(&GBookService_ServiceDesc, srv)
 }
 
-func _BookService_GetBooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BooksRequest)
+func _GBookService_GetBooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GBooksRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BookServiceServer).GetBooks(ctx, in)
+		return srv.(GBookServiceServer).GetBooks(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/book.BookService/GetBooks",
+		FullMethod: "/book.GBookService/GetBooks",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookServiceServer).GetBooks(ctx, req.(*BooksRequest))
+		return srv.(GBookServiceServer).GetBooks(ctx, req.(*GBooksRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// BookService_ServiceDesc is the grpc.ServiceDesc for BookService service.
+func _GBookService_GetBookByUid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GBookByUidRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GBookServiceServer).GetBookByUid(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/book.GBookService/GetBookByUid",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GBookServiceServer).GetBookByUid(ctx, req.(*GBookByUidRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GBookService_DeleteBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GBookByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GBookServiceServer).DeleteBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/book.GBookService/DeleteBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GBookServiceServer).DeleteBook(ctx, req.(*GBookByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GBookService_CreateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GCreateBookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GBookServiceServer).CreateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/book.GBookService/CreateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GBookServiceServer).CreateBook(ctx, req.(*GCreateBookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GBookService_UpdateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GUpdateBookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GBookServiceServer).UpdateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/book.GBookService/UpdateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GBookServiceServer).UpdateBook(ctx, req.(*GUpdateBookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// GBookService_ServiceDesc is the grpc.ServiceDesc for GBookService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var BookService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "book.BookService",
-	HandlerType: (*BookServiceServer)(nil),
+var GBookService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "book.GBookService",
+	HandlerType: (*GBookServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetBooks",
-			Handler:    _BookService_GetBooks_Handler,
+			Handler:    _GBookService_GetBooks_Handler,
+		},
+		{
+			MethodName: "GetBookByUid",
+			Handler:    _GBookService_GetBookByUid_Handler,
+		},
+		{
+			MethodName: "DeleteBook",
+			Handler:    _GBookService_DeleteBook_Handler,
+		},
+		{
+			MethodName: "CreateBook",
+			Handler:    _GBookService_CreateBook_Handler,
+		},
+		{
+			MethodName: "UpdateBook",
+			Handler:    _GBookService_UpdateBook_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

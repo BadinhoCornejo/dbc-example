@@ -2,11 +2,35 @@ syntax = "proto3";
 option go_package = "./book";
 package book;
 
-message BooksRequest {
+message GBooksRequest {
 
 }
 
-message BookResponse {
+message GBookByUidRequest {
+   string uid = 1; 
+}
+
+message GBookByIdRequest {
+   int64 id = 1; 
+}
+
+message GCreateBookRequest {
+    GWriteBook body = 1;
+}
+
+message GUpdateBookRequest {
+    string uid = 1;
+    GWriteBook body = 2;
+}
+
+message GWriteBook {
+    string title = 1;
+    string author = 2;
+    float price = 3;
+    int64 categoryId = 4;
+}
+
+message GBook {
     int64 id = 1;
     string uid = 2;
     string title = 3;
@@ -16,10 +40,22 @@ message BookResponse {
     string updatedAt = 7;
 }
 
-message BooksResponse {
-    repeated BookResponse books = 1;
+message GBooksResponse {
+    repeated GBookResponse books = 1;
 }
 
-service BookService {
-    rpc GetBooks(BooksRequest) returns (BooksResponse);
+message GBookResponse {
+    GBook book = 1;
+}
+
+message GDeleteResponse {
+    int64 affected = 1;
+}
+
+service GBookService {
+    rpc GetBooks(GBooksRequest) returns (GBooksResponse);
+    rpc GetBookByUid(GBookByUidRequest) returns (GBookResponse);
+    rpc DeleteBook(GBookByIdRequest) returns (GDeleteResponse);
+    rpc CreateBook(GCreateBookRequest) returns (GBookResponse);
+    rpc UpdateBook(GUpdateBookRequest) returns (GBookResponse);
 }
